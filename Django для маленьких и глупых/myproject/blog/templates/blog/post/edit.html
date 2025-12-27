@@ -1,0 +1,86 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Редактирование поста{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header" style="text-align: center; margin-bottom: 30px;">
+        <h2><i class="fas fa-edit"></i> Редактировать пост</h2>
+        <p style="color: var(--gray);">{{ post.title }}</p>
+    </div>
+    
+    <form method="post" novalidate>
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="id_title">
+                <i class="fas fa-heading"></i> Заголовок
+            </label>
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="error">{{ form.title.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="id_body">
+                <i class="fas fa-align-left"></i> Содержание
+            </label>
+            {{ form.body }}
+            <div style="background: var(--light); padding: 15px; border-radius: 8px; margin-top: 10px;">
+                <h4 style="margin: 0 0 10px 0; color: var(--primary);">
+                    <i class="fas fa-info-circle"></i> Поддерживается Markdown
+                </h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+                    <div>
+                        <code>**жирный текст**</code> → <strong>жирный текст</strong>
+                    </div>
+                    <div>
+                        <code>*курсив*</code> → <em>курсив</em>
+                    </div>
+                    <div>
+                        <code>`код`</code> → <code>код</code>
+                    </div>
+                    <div>
+                        <code>#Заголовок</code> → <h4>Заголовок</h4>
+                    </div>
+                </div>
+            </div>
+            {% if form.body.errors %}
+                <div class="error">{{ form.body.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="id_tags">
+                    <i class="fas fa-tags"></i> Теги
+                </label>
+                {{ form.tags }}
+                <small style="color: var(--gray); display: block; margin-top: 5px;">
+                    Вводите через запятую: django, python, программирование
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label for="id_status">
+                    <i class="fas fa-flag"></i> Статус
+                </label>
+                {{ form.status }}
+                <small style="color: var(--gray); display: block; margin-top: 5px;">
+                    Draft: виден только вам. Published: опубликован для всех.
+                </small>
+            </div>
+        </div>
+        
+        <div class="form-actions" style="display: flex; gap: 15px; margin-top: 30px;">
+            <button type="submit" class="btn" style="flex: 1;">
+                <i class="fas fa-save"></i> Сохранить изменения
+            </button>
+            <a href="{{ post.get_absolute_url }}" class="btn" style="background: var(--gray); flex: 0.5;">
+                <i class="fas fa-times"></i> Отмена
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

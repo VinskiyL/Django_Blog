@@ -1,0 +1,297 @@
+@font-face {
+    font-family: 'Marvel';
+    src: url('../../fonts/MarvelRegular-Dj83.ttf') format('truetype');
+}
+
+:root {
+    --primary: #7f1109;
+    --primary-dark: #5a0c06;
+    --secondary: #91a79f;
+    --light: #f8f9fa;
+    --dark: #0c0c0c;
+    --gray: #6c757d;
+    --light-gray: #e9ecef;
+    --border: #dee2e6;
+    --success: #4cc9f0;
+    --warning: #f72585;
+    --radius: 12px;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --transition: all 0.3s ease;
+}
+
+/* ===== ОСНОВНЫЕ НАСТРОЙКИ ===== */
+body {
+    font-family: 'Marvel', sans-serif !important;
+    background: url('../../images/themes/m_fon.jpg') no-repeat center center fixed !important;
+    background-size: cover !important;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(12, 12, 12, 0.85);
+    z-index: -1;
+}
+
+/* ===== ШАПКА ===== */
+.header {
+    background: linear-gradient(90deg, var(--primary), #0c0c0c) !important;
+    border-left: 5px solid #feb758 !important;
+    border-radius: 0 !important;
+    box-shadow: 0 5px 20px rgba(254, 183, 88, 0.5) !important;
+}
+
+.site-title a {
+    color: #feb758 !important;
+    text-shadow: 3px 3px 0 var(--primary), 6px 6px 0 rgba(0, 0, 0, 0.2) !important;
+    background: none !important;
+    -webkit-background-clip: unset !important;
+    background-clip: unset !important;
+    font-size: 2.8rem !important;
+    letter-spacing: 2px !important;
+}
+
+/* ===== КНОПКИ ВСЕ ===== */
+.btn,
+input[type="submit"],
+button[type="submit"] {
+    background: var(--primary) !important;
+    color: white !important;
+    border: 3px solid white !important;
+    border-radius: 0 !important;
+    font-family: 'Marvel', sans-serif !important;
+    font-weight: bold !important;
+    box-shadow: 5px 5px 0 #0c0c0c !important;
+    transition: all 0.2s !important;
+}
+
+.btn:hover,
+input[type="submit"]:hover,
+button[type="submit"]:hover {
+    transform: translate(3px, 3px) !important;
+    box-shadow: 2px 2px 0 #0c0c0c !important;
+    background: #feb758 !important;
+    color: #0c0c0c !important;
+}
+
+/* Кнопка Выйти в форме */
+.nav-link[type="submit"] {
+    background: var(--primary) !important;
+    color: white !important;
+    border: 3px solid white !important;
+    border-radius: 0 !important;
+}
+
+/* ===== КНОПКА УДАЛИТЬ ===== */
+.btn-delete {
+    background: linear-gradient(135deg, var(--primary), #5a0c06) !important;
+    color: white !important;
+    border: 3px solid white !important;
+    padding: 8px 15px !important;
+    font-size: 0.9rem !important;
+    border-radius: 0 !important;
+    min-height: 34px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 5px 5px 0 #0c0c0c !important;
+}
+
+/* Кнопка с inline стилем */
+button[style*="background: linear-gradient(135deg, #ff4757, #ff3838)"] {
+    background: linear-gradient(135deg, var(--primary), #5a0c06) !important;
+    color: white !important;
+    border: 3px solid white !important;
+    padding: 8px 15px !important;
+    font-size: 0.9rem !important;
+    border-radius: 0 !important;
+    box-shadow: 5px 5px 0 #0c0c0c !important;
+}
+
+.btn-delete:hover,
+button[style*="background: linear-gradient(135deg, #ff4757, #ff3838)"]:hover {
+    transform: translate(3px, 3px) !important;
+    box-shadow: 2px 2px 0 #0c0c0c !important;
+    background: #feb758 !important;
+    color: #0c0c0c !important;
+}
+
+/* ===== КНОПКА ОПУБЛИКОВАТЬ ===== */
+button[style*="background: #06d6a0"],
+form[action*="publish_draft"] button {
+    background: #929741 !important;
+    color: white !important;
+    border: 3px solid white !important;
+    box-shadow: 5px 5px 0 #0c0c0c !important;
+}
+
+button[style*="background: #06d6a0"]:hover,
+form[action*="publish_draft"] button:hover {
+    transform: translate(3px, 3px) !important;
+    box-shadow: 2px 2px 0 #0c0c0c !important;
+    background: #feb758 !important;
+    color: #0c0c0c !important;
+}
+
+/* ===== НАВИГАЦИЯ ===== */
+.nav-link {
+    background: var(--primary) !important;
+    color: white !important;
+    border: 3px solid white !important;
+    border-radius: 0 !important;
+    font-weight: bold !important;
+    box-shadow: 5px 5px 0 #0c0c0c !important;
+}
+
+.nav-link:hover {
+    transform: translate(3px, 3px) !important;
+    box-shadow: 2px 2px 0 #0c0c0c !important;
+    background: #feb758 !important;
+    color: #0c0c0c !important;
+}
+
+/* ===== ФОРМЫ ===== */
+.form-container {
+    background: rgba(245, 245, 245, 0.95) !important;
+    border: 3px solid var(--primary) !important;
+    border-radius: 0 !important;
+    color: #0c0c0c !important;
+}
+
+/* Блок с информацией про Markdown */
+.form-container > div[style*="background: var(--light);"] {
+    background: #929741 !important;
+    color: white !important;
+    border: 2px solid white !important;
+    box-shadow: 5px 5px 0 #0c0c0c !important;
+}
+
+/* Код внутри информационного блока */
+.form-container > div[style*="background: var(--light);"] code {
+    background: rgba(12, 12, 12, 0.7) !important;
+    color: #feb758 !important;
+    border: 1px solid #feb758 !important;
+    padding: 2px 6px !important;
+    border-radius: 0 !important;
+    font-family: 'Courier New', monospace !important;
+}
+
+/* Грид с примерами Markdown */
+.form-container > div[style*="background: var(--light);"] > div[style*="display: grid;"] {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+    gap: 10px !important;
+}
+
+/* Каждая ячейка грида */
+.form-container > div[style*="background: var(--light);"] > div[style*="display: grid;"] > div {
+    background: rgba(12, 12, 12, 0.3) !important;
+    padding: 10px !important;
+    border-radius: 0 !important;
+    border: 2px dashed white !important;
+    text-align: center !important;
+    box-shadow: 3px 3px 0 #0c0c0c !important;
+}
+
+/* Убираем стрелочку "→" и делаем вертикальную компоновку */
+.form-container > div[style*="background: var(--light);"] > div[style*="display: grid;"] > div br {
+    display: none !important;
+}
+
+.form-container > div[style*="background: var(--light);"] > div[style*="display: grid;"] > div {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 60px !important;
+}
+
+/* Код сверху */
+.form-container > div[style*="background: var(--light);"] > div[style*="display: grid;"] > div code {
+    margin-bottom: 5px !important;
+    display: block !important;
+}
+
+/* Результат снизу */
+.form-container > div[style*="background: var(--light);"] > div[style*="display: grid;"] > div > *:not(code) {
+    margin-top: 5px !important;
+    display: block !important;
+}
+
+/* Заголовок H4 */
+.form-container > div[style*="background: var(--light);"] > div[style*="display: grid;"] > div h4 {
+    font-size: 1.1rem !important;
+    margin: 5px 0 0 0 !important;
+    color: white !important;
+    text-shadow: 1px 1px 0 #0c0c0c !important;
+}
+
+/* ===== САЙДБАР ===== */
+.sidebar {
+    background: linear-gradient(135deg, #91a79f, #a8b8b0) !important;
+    border: 4px solid #0c0c0c !important;
+    border-top: 8px solid var(--primary) !important;
+    border-radius: 0 !important;
+    box-shadow: 5px 5px 0 #929741 !important;
+}
+
+/* ===== КАРТОЧКИ ПОСТОВ ===== */
+.post-card {
+    background: rgba(245, 245, 245, 0.95) !important;
+    border: 3px solid var(--primary) !important;
+    border-radius: 0 !important;
+    box-shadow: 8px 8px 0 #929741 !important;
+    color: #0c0c0c !important;
+}
+
+.post-card::before {
+    background: linear-gradient(to bottom, var(--primary), #0c0c0c) !important;
+}
+
+/* ===== ТЕГИ ===== */
+.tag {
+    background: #929741 !important;
+    color: white !important;
+    border: 2px solid #91a79f !important;
+    border-radius: 0 !important;
+    clip-path: polygon(0% 0%, 100% 0%, 90% 50%, 100% 100%, 0% 100%) !important;
+}
+
+/* ===== ПАГИНАЦИЯ ===== */
+.page-link {
+    background: var(--primary) !important;
+    color: white !important;
+    border: 2px solid white !important;
+    border-radius: 0 !important;
+    box-shadow: 3px 3px 0 #0c0c0c !important;
+}
+
+.page-link:hover,
+.current {
+    background: #feb758 !important;
+    color: #0c0c0c !important;
+    border-color: #0c0c0c !important;
+    transform: translate(2px, 2px) !important;
+    box-shadow: 1px 1px 0 #0c0c0c !important;
+}
+
+/* ===== ПЕРЕКЛЮЧАТЕЛЬ ТЕМ ===== */
+.theme-selector {
+    background: var(--primary) !important;
+    color: white !important;
+    border: 3px solid white !important;
+    border-radius: 0 !important;
+    box-shadow: 5px 5px 0 #0c0c0c !important;
+}
+
+.theme-selector:hover {
+    transform: translate(3px, 3px) !important;
+    box-shadow: 2px 2px 0 #0c0c0c !important;
+    background: #feb758 !important;
+    color: #0c0c0c !important;
+}

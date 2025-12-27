@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Мой блог{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="site-title">
+                <a href="{% url 'blog:post_list' %}" style="text-decoration: none;">
+                    ✨ Мой Блог
+                </a>
+            </h1>
+            <p class="site-subtitle">Просто пишу о том, что интересно</p>
+
+            <nav class="main-nav">
+                <a href="{% url 'blog:post_list' %}" class="nav-link">
+                    <i class="fas fa-home"></i> Главная
+                </a>
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'blog:draft_list' %}" class="nav-link">
+                        <i class="fas fa-edit"></i> Черновики
+                    </a>
+                    <a href="{% url 'blog:post_create' %}" class="nav-link">
+                        <i class="fas fa-plus"></i> Новый пост
+                    </a>
+                    <a href="/admin" class="nav-link">
+                        <i class="fas fa-user-cog"></i> Админка
+                    </a>
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="nav-link" style="background: none; border: none; cursor: pointer; font: inherit;">
+                            <i class="fas fa-sign-out-alt"></i> Выйти
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="nav-link">
+                        <i class="fas fa-sign-in-alt"></i> Войти
+                    </a>
+                {% endif %}
+            </nav>
+            <div class="theme-selector-container">
+                <select id="theme-selector" class="theme-selector">
+                    <option value="blog">Обычный</option>
+                    <option value="harry">Гарри Поттер</option>
+                    <option value="marvel">Марвел</option>
+                    <option value="ny">Новый Год</option>
+                </select>
+            </div>
+        </header>
+
+        <main class="main-content">
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="message {{ message.tags }}">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <aside class="sidebar">
+            <h2 class="sidebar-title">
+                <i class="fas fa-fire"></i> Популярное
+            </h2>
+            {% load blog_tags %}
+            {% get_most_commented_posts as most_commented_posts %}
+            <ul class="popular-posts">
+                {% for post in most_commented_posts %}
+                <li>
+                    <a href="{{ post.get_absolute_url }}">
+                        <i class="fas fa-chevron-right"></i> {{ post.title }}
+                    </a>
+                </li>
+                {% empty %}
+                <li>Пока нет популярных постов</li>
+                {% endfor %}
+            </ul>
+
+            <div class="divider"></div>
+
+            <h2 class="sidebar-title">
+                <i class="fas fa-clock"></i> Последние посты
+            </h2>
+            {% show_latest_posts 5 %}
+
+            <div class="divider"></div>
+
+            <h2 class="sidebar-title">
+                <i class="fas fa-info-circle"></i> О блоге
+            </h2>
+            <p>Всего постов: {% total_posts %}</p>
+            <p>Здесь я делюсь мыслями о программировании, Django и всём интересном.</p>
+        </aside>
+    </div>
+<script src="{% static 'js/theme-switcher.js' %}"></script>
+</body>
+</html>

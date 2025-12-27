@@ -1,0 +1,52 @@
+{% extends "blog/base.html" %}
+{% load blog_tags %}
+
+{% block title %}Мой блог{% endblock %}
+
+{% block content %}
+    {% if tag %}
+        <div class="highlight" style="margin-bottom: 30px; padding: 20px;">
+            <h2>Посты с тегом <span class="tag" style="font-size: 1.2rem;">{{ tag.name }}</span></h2>
+            <a href="{% url 'blog:post_list' %}" class="btn" style="margin-top: 10px;">
+                <i class="fas fa-arrow-left"></i> Все посты
+            </a>
+        </div>
+    {% endif %}
+
+    {% for post in page %}
+    <article class="post-card">
+        <h2 class="post-title">
+            <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+        </h2>
+
+        <div class="post-meta">
+            <span><i class="far fa-calendar"></i> {{ post.publish|date:"d.m.Y" }}</span>
+            <span><i class="far fa-user"></i> {{ post.author.username }}</span>
+        </div>
+
+        <div class="tags">
+            {% for tag in post.tags.all %}
+            <a href="{% url 'blog:post_list_by_tag' tag.slug %}" class="tag">
+                {{ tag.name }}
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="post-excerpt">
+            {{ post.body|markdown|truncatewords_html:30|safe }}
+        </div>
+
+        <a href="{{ post.get_absolute_url }}" class="btn" style="margin-top: 15px;">
+            <i class="fas fa-book-open"></i> Читать дальше
+        </a>
+    </article>
+    {% empty %}
+    <div class="empty-state">
+        <i class="fas fa-newspaper fa-3x" style="color: var(--gray); margin-bottom: 20px;"></i>
+        <h3>Пока нет постов</h3>
+        <p>Будьте первым, кто напишет!</p>
+    </div>
+    {% endfor %}
+
+    {% include "pagination.html" with page=page %}
+{% endblock %}

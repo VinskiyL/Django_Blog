@@ -1,0 +1,141 @@
+{% extends "blog/base.html" %}
+{% load blog_tags %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<article class="post-card" style="margin-bottom: 0;">
+    {% if post.status == 'DF' %}
+    <div style="background: #ffd166; color: #333; padding: 10px 20px; border-radius: 20px; display: inline-block; margin-bottom: 15px;">
+        <i class="fas fa-pencil-alt"></i> Черновик
+    </div>
+    {% endif %}
+
+    <h1 class="post-title">{{ post.title }}</h1>
+
+    <p class="tags">
+        Теги:
+        {% for tag in post.tags.all %}
+            <a href="{% url 'blog:post_list_by_tag' tag.slug %}" class="tag">
+                {{ tag.name }}
+            </a>{% if not forloop.last %}{% endif %}
+        {% endfor %}
+    </p>
+
+    <div class="post-meta">
+        <span><i class="far fa-calendar"></i> {{ post.publish|date:"d.m.Y H:i" }}</span>
+        <span><i class="far fa-user"></i> {{ post.author.username }}</span>
+        <span><i class="far fa-comment"></i> {{ comments.count }} комментариев</span>
+
+        {% if user == post.author or user.is_superuser %}
+        <span style="display: inline-flex; gap: 10px; margin-left: 10px;">
+            <a href="{% url 'blog:post_edit' post.id %}" class="btn" style="padding: 5px 12px; font-size: 0.85rem;">
+                <i class="fas fa-edit"></i> Редактировать
+            </a>
+            <form method="post" action="{% url 'blog:post_delete' post.id %}" style="display: inline;"
+                  onsubmit="return confirm('Удалить пост «{{ post.title }}»?')">
+                {% csrf_token %}
+                <button type="submit" class="btn-delete">
+                    <i class="fas fa-trash"></i> Удалить
+                </button>
+            </form>
+            {% if post.status == 'DF' %}
+            <form method="post" action="{% url 'blog:publish_draft' post.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn" style="background: #06d6a0; padding: 5px 12px; font-size: 0.85rem;">
+                    <i class="fas fa-paper-plane"></i> Опубликовать
+                </button>
+            </form>
+            {% endif %}
+        </span>
+        {% endif %}
+    </div>
+
+    <div class="post-body">
+        {{ post.body|markdown|safe }}
+    </div>
+</article>
+
+{% if similar_posts and post.status == 'PB' %}
+<div class="similar-posts post-card">
+    <h3><i class="fas fa-layer-group"></i> Похожие посты</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px;">
+        {% for similar in similar_posts %}
+        <div class="similar-card" style="background: var(--light); padding: 15px; border-radius: 8px;">
+            <a href="{{ similar.get_absolute_url }}" style="text-decoration: none; color: var(--dark);">
+                <h4 style="margin: 0 0 10px 0; color: var(--primary);">{{ similar.title }}</h4>
+                <small style="color: var(--gray);">
+                    <i class="far fa-calendar"></i> {{ similar.publish|date:"d.m.Y" }}
+                </small>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if post.status == 'PB' %}
+<div class="comments-section post-card">
+    <h3><i class="far fa-comments"></i> Комментарии ({{ comments.count }})</h3>
+
+    {% for comment in comments %}
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">
+                <i class="fas fa-user"></i> {{ comment.name }}
+            </span>
+            <span class="comment-date">
+                <i class="far fa-clock"></i> {{ comment.created|date:"d.m.Y H:i" }}
+            </span>
+        </div>
+        <div class="comment-body">
+            {{ comment.body|linebreaks }}
+        </div>
+    </div>
+    {% empty %}
+    <div class="empty-state" style="margin: 20px 0;">
+        <i class="far fa-comment-slash" style="font-size: 2rem; color: var(--gray);"></i>
+        <p>Пока нет комментариев. Будьте первым!</p>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="form-container post-card">
+    <h3><i class="fas fa-edit"></i> Добавить комментарий</h3>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+            <div class="form-group">
+                <label for="id_name">Имя *</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <div class="error">{{ form.name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_email">Email *</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div class="error">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="id_body">Комментарий *</label>
+            {{ form.body }}
+            {% if form.body.errors %}
+                <div class="error">{{ form.body.errors }}</div>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn" style="margin-top: 15px;">
+            <i class="fas fa-paper-plane"></i> Отправить комментарий
+        </button>
+    </form>
+</div>
+{% endif %}
+{% endblock %}

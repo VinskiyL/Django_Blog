@@ -1,0 +1,56 @@
+{% extends "blog/base.html" %}
+
+{% block title %}Мои черновики{% endblock %}
+
+{% block content %}
+<div class="drafts-header" style="margin-bottom: 30px;">
+    <h1><i class="fas fa-edit"></i> Мои черновики</h1>
+    <p style="color: var(--gray);">Посты, которые ещё не опубликованы. Видны только вам.</p>
+</div>
+
+{% for draft in drafts %}
+<article class="post-card">
+    <div style="display: flex; align-items: flex-start; justify-content: space-between;">
+        <h2 class="post-title">
+            <a href="{{ draft.get_absolute_url }}">{{ draft.title }}</a>
+        </h2>
+        <span class="tag" style="background: #ffd166; color: #333;">
+            <i class="fas fa-pencil-alt"></i> Черновик
+        </span>
+    </div>
+
+    <div class="post-meta">
+        <span><i class="far fa-calendar"></i> {{ draft.publish|date:"d.m.Y H:i" }}</span>
+        <span><i class="fas fa-history"></i> Обновлен: {{ draft.updated|date:"d.m.Y" }}</span>
+    </div>
+
+    <div class="post-excerpt">
+        {{ draft.body|truncatewords_html:30|safe }}
+    </div>
+
+    <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <a href="{{ draft.get_absolute_url }}" class="btn" style="flex: 1;">
+            <i class="fas fa-eye"></i> Просмотреть
+        </a>
+        <a href="{% url 'blog:post_edit' draft.id %}" class="btn" style="background: var(--gray); flex: 1;">
+            <i class="fas fa-edit"></i> Редактировать
+        </a>
+        <form method="post" action="{% url 'blog:publish_draft' draft.id %}" style="flex: 1;">
+            {% csrf_token %}
+            <button type="submit" class="btn" style="background: #06d6a0; width: 100%;">
+                <i class="fas fa-paper-plane"></i> Опубликовать
+            </button>
+        </form>
+    </div>
+</article>
+{% empty %}
+<div class="empty-state">
+    <i class="fas fa-edit fa-3x" style="color: var(--gray); margin-bottom: 20px;"></i>
+    <h3>Нет черновиков</h3>
+    <p>Создайте свой первый пост!</p>
+    <a href="{% url 'blog:post_create' %}" class="btn" style="margin-top: 15px;">
+        <i class="fas fa-plus"></i> Создать пост
+    </a>
+</div>
+{% endfor %}
+{% endblock %}

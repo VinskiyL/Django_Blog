@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход в блог</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header" style="text-align: center; margin-bottom: 40px;">
+            <h1 class="site-title">
+                <a href="{% url 'blog:post_list' %}" style="text-decoration: none;">
+                    ✨ Мой Блог
+                </a>
+            </h1>
+            <p class="site-subtitle">Войдите, чтобы писать посты</p>
+        </header>
+
+        <main class="main-content" style="grid-column: 1 / -1; text-align: center;">
+
+            <div class="form-container" style="max-width: 500px; margin: 0 auto;">
+                <h2 style="margin-bottom: 30px;">
+                    <i class="fas fa-sign-in-alt"></i> Вход в систему
+                </h2>
+
+                {% if form.errors %}
+                <div class="error-message">
+                    Неправильное имя пользователя или пароль. Попробуйте еще раз.
+                </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'login' %}">
+                    {% csrf_token %}
+
+                    <div class="form-group">
+                        <label>Имя пользователя</label>
+                        <input type="text" name="username" class="form-control" required autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Пароль</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+
+                    <div style="margin: 25px 0;">
+                        <button type="submit" class="btn" style="width: 100%; padding: 15px; font-size: 1.1rem;">
+                            <i class="fas fa-sign-in-alt"></i> Войти в блог
+                        </button>
+                    </div>
+
+                    <div class="test-account">
+                        <p style="margin: 0;"><strong>Тестовый аккаунт:</strong></p>
+                        <p style="margin: 5px 0 0 0;">
+                            <strong>Логин:</strong> admin &nbsp;|&nbsp;
+                            <strong>Пароль:</strong> admin123
+                        </p>
+                    </div>
+                </form>
+
+                <div style="margin-top: 30px;">
+                    <a href="{% url 'blog:post_list' %}" class="btn" style="background: var(--gray);">
+                        <i class="fas fa-arrow-left"></i> Вернуться на главную
+                    </a>
+                </div>
+            </div>
+
+            <div style="max-width: 800px; margin: 50px auto 0; text-align: left;">
+                <h3 style="color: var(--primary); margin-bottom: 20px; text-align: center;">
+                    <i class="fas fa-star"></i> Что можно делать после входа?
+                </h3>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+                    <div class="feature-card">
+                        <div style="font-size: 2rem; color: var(--primary); margin-bottom: 15px;">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <h4>Создавать посты</h4>
+                        <p>Пишите о программировании, Django и всём интересном с поддержкой Markdown.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div style="font-size: 2rem; color: var(--primary); margin-bottom: 15px;">
+                            <i class="fas fa-tags"></i>
+                        </div>
+                        <h4>Добавлять теги</h4>
+                        <p>Помечайте посты тематическими тегами для удобной навигации и поиска.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div style="font-size: 2rem; color: var(--primary); margin-bottom: 15px;">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h4>Управлять комментариями</h4>
+                        <p>Модерируйте комментарии к вашим постам через удобную админ-панель.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+<script src="{% static 'js/theme-switcher.js' %}"></script>
+</body>
+</html>

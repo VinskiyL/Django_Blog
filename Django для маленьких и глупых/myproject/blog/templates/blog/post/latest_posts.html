@@ -1,0 +1,11 @@
+<ul class="latest-posts">
+    {% for post in latest_posts %}
+    <li>
+        <a href="{{ post.get_absolute_url }}">
+            <i class="fas fa-chevron-right"></i> {{ post.title }}
+        </a>
+    </li>
+    {% empty %}
+    <li>Нет постов</li>
+    {% endfor %}
+</ul>
