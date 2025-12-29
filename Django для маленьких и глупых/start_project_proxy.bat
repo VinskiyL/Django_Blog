@@ -13,9 +13,7 @@ python -m pip install --proxy http://student:student@192.168.1.240:3128 pytils
 django-admin startproject mysite .
 python manage.py startapp blog
 
-python -c "t=open('mysite/settings.py',encoding='utf-8').read().replace('INSTALLED_APPS = [', 'INSTALLED_APPS = [\n    \"blog.apps.BlogConfig\",'); open('mysite/settings.py','w',encoding='utf-8').write(t)"
-
-python -c "t=open('mysite/settings.py',encoding='utf-8').read().replace(\"'django.contrib.staticfiles',\", \"'django.contrib.staticfiles',\n    'taggit',\"); open('mysite/settings.py','w',encoding='utf-8').write(t)"
+python -c "with open('mysite/settings.py', encoding='utf-8') as f: t = f.read(); t = t.replace('INSTALLED_APPS = [', 'INSTALLED_APPS = [\n    \"blog.apps.BlogConfig\",\n    \"taggit\",'); with open('mysite/settings.py', 'w', encoding='utf-8') as f: f.write(t)"
 
 python manage.py migrate
 
