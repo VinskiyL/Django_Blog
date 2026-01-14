@@ -13,7 +13,9 @@ python -m pip install pytils
 django-admin startproject mysite .
 python manage.py startapp blog
 
-python -c "with open('mysite/settings.py', encoding='utf-8') as f: t = f.read(); t = t.replace('INSTALLED_APPS = [', 'INSTALLED_APPS = [\n    \"blog.apps.BlogConfig\",\n    \"taggit\",'); with open('mysite/settings.py', 'w', encoding='utf-8') as f: f.write(t)"
+python -c "t=open('mysite/settings.py',encoding='utf-8').read().replace('INSTALLED_APPS = [', 'INSTALLED_APPS = [\n    \"blog.apps.BlogConfig\",'); open('mysite/settings.py','w',encoding='utf-8').write(t)"
+
+python -c "t=open('mysite/settings.py',encoding='utf-8').read().replace(\"'django.contrib.staticfiles',\", \"'django.contrib.staticfiles',\n    'taggit',\"); open('mysite/settings.py','w',encoding='utf-8').write(t)"
 
 python manage.py migrate
 
